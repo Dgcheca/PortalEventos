@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Torneo;
+use App\Models\Juego;
+use App\Models\User;
+use App\Models\Equipo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TorneoController extends Controller
 {
@@ -14,7 +18,12 @@ class TorneoController extends Controller
      */
     public function index()
     {
-        //
+         //Sacar id de usuario autenticado
+         $id = Auth::id();
+         //Sacar las citas del usuario que se ha logueado
+         $torneos = Torneo::orderBy('fecha')->paginate(10);
+
+         return view('welcome',['torneos' => $torneos]);
     }
 
     /**

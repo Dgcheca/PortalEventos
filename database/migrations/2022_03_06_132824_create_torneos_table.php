@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('juego_id');
             $table->date('fecha');
             $table->string('hora_inicio');
+            $table->string('descripcion');
             $table->integer('aforo_maximo');
             $table->integer('nequipos');
             $table->string('tipo');
