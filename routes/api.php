@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/torneos', function () {return TorneoResource::collection(Torneo::all());}); 
 Route::get('/juegos', function () {return JuegoResource::collection(Juego::all());}); 
 Route::get('/equipos', function () {return EquipoResource::collection(Equipo::all());}); 
-Route::get('/', function () {return EquipoResource::collection(Equipo::all());}); 
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // Route::post('/citas', [CitaController::class, 'createApi']);

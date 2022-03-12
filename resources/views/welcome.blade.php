@@ -14,6 +14,29 @@
         </div>
         @endif
     </x-slot>
-    
-  
+    <div class="grid grid-cols-4">
+        @foreach ($torneos as $torneo)
+
+        <!-- Card -->
+        <div class="flex inline-block bg-gray-900 border rounded-lg border-gray-700 p-5 m-2">
+            <a class="w-full bg-slate-900 border rounded-lg border-gray-700 p-5 shadow hover:bg-gray-700 delay-100 duration-200" href="#" >
+            <!-- Header -->
+
+                <img src="http://localhost/imagenes/{{ $torneo->juego->imagen }}" class="rounded w-72 h-72" />
+                <p class="mt-3 text-gray-500 font-semibold">{{$torneo->juego->nombre}}</p>
+
+
+                <!-- Content -->
+                <p class="text-xs text-gray-500 mt-3">
+                    {{$torneo->descripcion}}
+                    {{$torneo->fecha}}
+                    {{$torneo->hora_inicio}}
+                    {{$torneo->nequipos}}
+                    {{$torneo->tipo}}
+                    {{$torneo->organizador->nombre}}
+                </p>
+            </a>
+        </div>
+        @endforeach
+    </div>
 </x-app-layout>
