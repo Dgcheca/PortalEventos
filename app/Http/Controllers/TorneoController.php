@@ -20,8 +20,8 @@ class TorneoController extends Controller
     public function index()
     {
         //$torneos = TorneoResource::collection(Torneo::all());
-        $torneos = Torneo::orderBy('fecha')->paginate(10); 
-        return view('welcome',['torneos' => $torneos]);
+        $torneos = Torneo::orderBy('fecha')->paginate(10);
+        return view('inicio', ['torneos' => $torneos]);
     }
 
     /**
@@ -31,7 +31,8 @@ class TorneoController extends Controller
      */
     public function create()
     {
-        //
+        $juegos = Juego::all();
+        return view('createTorneo', ['juegos' => $juegos]);
     }
 
     /**
@@ -42,7 +43,29 @@ class TorneoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validación
+        $validated = $request->validate([
+            'descripcion' => 'required|max:255',
+            'fecha' => 'required|min:'
+        ]);
+        if ($request->minutos < 10) {
+            $minutos = '0' . $request->minutos;
+        } else {
+            $minutos = $request->minutos;
+        }
+        $hora_inicio = "" . $request->hora . ":" . $minutos;
+        //Insercción
+        $torneo = new Torneo;
+        $torneo->juego_id = $request->juego_id;
+        $torneo->fecha = $request->fecha;
+        $torneo->hora_inicio = $hora_inicio;
+        $torneo->descripcion = $request->descripcion;
+        $torneo->aforo_maximo = $request->aforo;
+        $torneo->nequipos = 0;
+        $torneo->tipo = $request->tipo;
+        $torneo->user_id = Auth::id();
+        $torneo->save();
+        return redirect()->route('inicio');
     }
 
     /**
@@ -51,9 +74,10 @@ class TorneoController extends Controller
      * @param  \App\Models\Torneo  $torneo
      * @return \Illuminate\Http\Response
      */
-    public function show(Torneo $torneo)
+    public function show($id)
     {
-        //
+        $torneo = Torneo::findOrFail($id);
+        return view('verTorneo', ['torneo' => $torneo]);
     }
 
     /**
@@ -62,9 +86,13 @@ class TorneoController extends Controller
      * @param  \App\Models\Torneo  $torneo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Torneo $torneo)
+    public function edit($id)
     {
-        //
+        $torneo = Torneo::findOrFail($id);
+        $this->authorize('update', $torneo);
+        $juegos = Juego::all();
+        $hora = explode(':', $torneo->hora_inicio);
+        return view('updateTorneo', ['torneo' => $torneo, 'juegos' => $juegos, 'hora' => $hora]);
     }
 
     /**
@@ -74,9 +102,35 @@ class TorneoController extends Controller
      * @param  \App\Models\Torneo  $torneo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Torneo $torneo)
+    public function update(Request $request, $id)
     {
-        //
+        //Validación
+        $validated = $request->validate([
+            'descripcion' => 'required|max:255',
+            'fecha' => 'required:'
+        ]);
+        $torneo = Torneo::find($id);
+        $this->authorize('update', $torneo);
+
+        //CONVIERTE LAS HORAS Y MINUTOS AL FORMATO DE HORA
+        if ($request->minutos < 10) {
+            $minutos = '0' . $request->minutos;
+        } else {
+            $minutos = $request->minutos;
+        }
+        $hora_inicio = $request->hora . ":" . $minutos;
+
+        $torneo = Torneo::find($id);
+        $torneo->juego_id = $request->juego_id;
+        $torneo->fecha = $request->fecha;
+        $torneo->hora_inicio = $hora_inicio;
+        $torneo->descripcion = $request->descripcion;
+        $torneo->aforo_maximo = $request->aforo;
+        $torneo->tipo = $request->tipo;
+        $torneo->user_id = Auth::id();
+        $torneo->save();
+
+        return redirect()->route('inicio');
     }
 
     /**
@@ -85,8 +139,12 @@ class TorneoController extends Controller
      * @param  \App\Models\Torneo  $torneo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Torneo $torneo)
+    public function destroy($id)
     {
-        //
+        $torneo = Torneo::find($id);
+        $this->authorize('delete', $torneo);
+        Torneo::destroy($id);
+
+        return redirect()->route('inicio');
     }
 }

@@ -12,7 +12,7 @@ class Torneo extends Model
     public function juego(){
         return $this->belongsTo(Juego::class);
     }
-    public function organizador(){
+    public function user(){
         return $this->belongsTo(User::class);
     }
 }
