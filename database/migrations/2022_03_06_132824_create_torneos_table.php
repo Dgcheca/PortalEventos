@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('hora_inicio');
             $table->string('descripcion');
             $table->integer('aforo_maximo');
-            $table->integer('nequipos');
             $table->string('tipo');
             $table->unsignedBigInteger('user_id');
             $table->foreign('juego_id')->references('id')->on('juegos');

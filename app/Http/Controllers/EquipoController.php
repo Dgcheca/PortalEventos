@@ -63,6 +63,7 @@ class EquipoController extends Controller
         $equipo->tipo = $request->tipo;
         $equipo->save();
 
+        //COMPROBAMOS CUANTOS CAMPOS DE JUGADOR HABIA EN EL FORMULARIO Y VAMOS AGREGANDOLOS AL ARRAY
         $jugadores = array();
         array_push($jugadores, $request->jugador1);
         if (isset($request->jugador2)) {
@@ -78,6 +79,7 @@ class EquipoController extends Controller
             array_push($jugadores, $request->jugador5);
         }
 
+        //HAYA CUANTOS HAYA EN EL ARRAY, VAMOS UNO A UNO METIENDOLOS EN LA BASE DE DATOS
         foreach ($jugadores as $jugador) {
             $id = $jugador;
             $equipo->users()->attach($id);

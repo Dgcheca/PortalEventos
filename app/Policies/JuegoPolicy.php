@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Torneo;
+use App\Models\Juego;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TorneoPolicy
+class JuegoPolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +25,12 @@ class TorneoPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Torneo  $torneo
+     * @param  \App\Models\Juego  $juego
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Torneo $torneo)
+    public function view(User $user, Juego $juego)
     {
-       
+        //
     }
 
     /**
@@ -41,48 +41,41 @@ class TorneoPolicy
      */
     public function create(User $user)
     {
-        return ($user->rol == 'Organizador') || ($user->rol == 'Admin');
+        return ($user->rol === 'Organizador') || ($user->rol === 'Admin');
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Torneo  $torneo
+     * @param  \App\Models\Juego  $juego
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Torneo $torneo)
+    public function update(User $user, Juego $juego)
     {
-        return ($user->id === $torneo->user_id) || ($user->rol == 'Admin');
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Torneo  $torneo
+     * @param  \App\Models\Juego  $juego
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Torneo $torneo)
+    public function delete(User $user, Juego $juego)
     {
-        return ($user->id === $torneo->user_id) || ($user->rol == 'Admin');
+        //
     }
-
-    //METODO PARA LA INSCRIPCION DE UN USUARIO
-    public function inscripcion(User $user)
-    {
-        return ($user->rol == 'Jugador');
-    }
-
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Torneo  $torneo
+     * @param  \App\Models\Juego  $juego
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Torneo $torneo)
+    public function restore(User $user, Juego $juego)
     {
         //
     }
@@ -91,13 +84,11 @@ class TorneoPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Torneo  $torneo
+     * @param  \App\Models\Juego  $juego
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Torneo $torneo)
+    public function forceDelete(User $user, Juego $juego)
     {
         //
     }
-
-    
 }

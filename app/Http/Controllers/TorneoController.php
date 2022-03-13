@@ -19,7 +19,6 @@ class TorneoController extends Controller
      */
     public function index()
     {
-        //$torneos = TorneoResource::collection(Torneo::all());
         $torneos = Torneo::orderBy('fecha')->paginate(10);
         return view('inicio', ['torneos' => $torneos]);
     }
@@ -31,7 +30,8 @@ class TorneoController extends Controller
      */
     public function create()
     {
-        $this->authorize('create');
+        //$this->authorize('create');
+        
         $juegos = Juego::all();
         return view('createTorneo', ['juegos' => $juegos]);
     }
@@ -78,7 +78,9 @@ class TorneoController extends Controller
     public function show($id)
     {
         $torneo = Torneo::findOrFail($id);
-        return view('verTorneo', ['torneo' => $torneo]);
+        $equipos = $torneo->equipos();
+        $inscrito = true;
+        return view('verTorneo', ['torneo' => $torneo, 'equipos' => $equipos, 'inscrito' => $inscrito]);
     }
 
     /**
@@ -141,18 +143,9 @@ class TorneoController extends Controller
      */
     public function destroy($id)
     {
-        $torneo = Torneo::find($id);
-        $this->authorize('delete', $torneo);
+        //$this->authorize('delete', $torneo);
         Torneo::destroy($id);
 
         return redirect()->route('inicio');
-    }
-
-    //METODO DE INSCRIPCION DE LOS USUARIOS AL TORNEO
-    public function inscripcion($id)
-    {
-        $torneo = Torneo::find($id);
-        $equipos = Equipo::find($id);
-        return view('inscripcionTorneo', ['equipos' => $equipos, 'torneo' => $torneo]);
     }
 }

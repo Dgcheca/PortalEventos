@@ -3,11 +3,11 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight inline-block">
             {{ __('Torneos Activos') }}
         </h2>
- 
+
         @auth
         @if(Auth::user()->rol == 'Admin' || Auth::user()->rol == 'Organizador')
 
-        <a  href="{{ route('torneo.create') }}">
+        <a href="{{ route('torneo.create') }}">
             <x-button class="ml-2">
                 Nuevo Evento
             </x-button>
@@ -29,11 +29,12 @@
                 <!-- Content -->
                 <p class="text-xs text-gray-500 mt-3">
                     {{$torneo->descripcion}}
-                    {{$torneo->fecha}}
-                    {{$torneo->hora_inicio}}
-                    {{$torneo->nequipos}}
-                    {{$torneo->tipo}}
-                    {{$torneo->user->name}}
+                </p>
+                <p class="text-xs text-gray-500 mt-3">
+                   Fecha: {{$torneo->fecha}}
+                </p>
+                <p class="text-xs text-gray-500 mt-3">
+                    Para: {{$torneo->tipo}} jugador/es
                 </p>
             </a>
             @endforeach

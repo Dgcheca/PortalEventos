@@ -16,30 +16,43 @@
                 <p class="m-5">Info: {{$torneo->descripcion}}</p>
                 <p class="m-5 inline-block">Fecha: {{$torneo->fecha}}</p>
                 <p class="m-5 inline-block">Hora: {{$torneo->hora_inicio}}</p>
-                <p class="m-5">Equipos Participantes: {{$torneo->nequipos}}</p>
+                <p class="m-5">Equipos Participantes: {{$equipos->count()}}</p>
                 <p class="m-5">Por equipos de: {{$torneo->tipo}}</p>
                 <p class="m-5">Organizado por: {{$torneo->user->name}}</p>
+                <p class="m-5">
+                    @auth
+                    @if(Auth::user()->rol == 'Jugador')
+                    @if($inscrito)
+                    <a href="/inscripcion/{{$torneo->id}}">
+                        <x-button>
+                            Inscribirse
+                        </x-button>
+                    </a>
+                    @else
+                    <!-- HAY QUE HACER LA COMPROBACION PARA VER SI YA ESTA INSCRITO -->
+                    <a href="/inscripcion/{{$torneo->id}}/{{$equipo->id}}/delete">
+                        <x-button>
+                            Borrar Inscripcion
+                        </x-button>
+                    </a>
+                    @endif
 
-                @auth
-                @if(Auth::user()->rol == 'Jugador')
-                <a href="/torneo/inscripcion/{{$torneo->id}}">
-                    <x-button>
-                        Inscribirse
-                    </x-button>
-                </a>
-                @elseif((Auth::user()->rol == 'Admin') || (Auth::user()->id == $torneo->user->id))
-                <a href="/torneo/{{$torneo->id}}/edit">
-                    <x-button>
-                        Editar
-                    </x-button>
-                </a>
-                <a href="/torneo/{{$torneo->id}}/delete">
-                    <x-button>
-                        Borrar
-                    </x-button>
-                </a>
-                @endif
-                @endauth
+                    @elseif((Auth::user()->rol == 'Admin') || (Auth::user()->id == $torneo->user->id))
+
+                    <a href="/torneo/{{$torneo->id}}/edit">
+                        <x-button>
+                            Editar
+                        </x-button>
+                    </a>
+                    <a href="/torneo/{{$torneo->id}}/delete">
+                        <x-button>
+                            Borrar
+                        </x-button>
+                    </a>
+
+                    @endif
+                    @endauth
+                </p>
             </div>
         </div>
 

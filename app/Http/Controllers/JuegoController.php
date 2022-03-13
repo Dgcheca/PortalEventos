@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Torneo;
 use App\Models\Juego;
+use App\Models\User;
+use App\Models\Equipo;
+use App\Http\Resources\TorneoResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JuegoController extends Controller
 {
@@ -14,7 +19,8 @@ class JuegoController extends Controller
      */
     public function index()
     {
-        //
+        $juegos = Juego::paginate(10);
+        return view('indexJuegos', ['juegos' => $juegos]);
     }
 
     /**
@@ -24,7 +30,8 @@ class JuegoController extends Controller
      */
     public function create()
     {
-        //
+        //$this->authorize('create');
+        return view('createJuego');
     }
 
     /**
@@ -35,7 +42,19 @@ class JuegoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validación
+        $validated = $request->validate([
+            'nombre' => 'required|max:255',
+            'file' => 'mimes:jpeg,jpg,bmp,png'
+        ]);
+
+        $juego = new Juego;
+
+        $juego->nombre = $request->nombre;
+        $imagen = $request->file('file');
+        $juego->imagen = base64_encode($imagen->openFile()->fread($imagen->getSize()));
+        $juego->save();
+        return redirect()->route('juegos.index');
     }
 
     /**
@@ -78,8 +97,10 @@ class JuegoController extends Controller
      * @param  \App\Models\Juego  $juego
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Juego $juego)
+    public function destroy($id)
     {
-        //
+        Juego::destroy($id);
+
+        return redirect()->route('juegos.index');
     }
 }

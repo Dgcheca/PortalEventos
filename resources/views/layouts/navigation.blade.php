@@ -19,6 +19,11 @@
                     <x-nav-link :href="route('equipo.index')" :active="request()->routeIs('equipo.index')">
                         {{ __('Equipos') }}
                     </x-nav-link>
+                    @if(Auth::user()->rol == 'Admin' || Auth::user()->rol == 'Organizador') 
+                    <x-nav-link :href="route('juegos.index')" :active="request()->routeIs('juegos.index')">
+                        {{ __('Juegos') }}
+                    </x-nav-link>
+                    @endif
                     @endauth
                 </div>
             </div>
@@ -44,9 +49,9 @@
 
                         <x-slot name="content">
                             <!-- Authentication -->
-                            <form method="GET" action="{{ route('dashboard') }}">
+                            <form method="GET" action="{{ route('inicio') }}">
                                 @csrf
-                                <x-dropdown-link :href="route('dashboard')" onclick="event.preventDefault();
+                                <x-dropdown-link :href="route('inicio')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                     {{ __('Perfil') }}
                                 </x-dropdown-link>
@@ -90,9 +95,6 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('inicio')" :active="request()->routeIs('inicio')">
                 {{ __('Inicio') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
 
