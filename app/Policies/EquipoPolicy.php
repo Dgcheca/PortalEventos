@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Torneo;
+use App\Models\Equipo;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TorneoPolicy
+class EquipoPolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +25,14 @@ class TorneoPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Torneo  $torneo
+     * @param  \App\Models\Equipo  $equipo
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Torneo $torneo)
+    public function view(User $user, Equipo $equipo)
     {
-        return ($user->id === $torneo->user_id) || ($user->rol == 'Admin');
+        //ESTO NO ES ASI, HABRIA QUE SACAR LAS IDS DEL EQUIPO Y VER SI ALGUNA DE ESAS ES LA DEL USUARIO
+        //ACUERDATE DE PREGUNTAR A JAVI
+        return ($user->id === $equipo->user_id) || ($user->role == 'admin');
     }
 
     /**
@@ -41,48 +43,41 @@ class TorneoPolicy
      */
     public function create(User $user)
     {
-        return ($user->rol == 'Organizador') || ($user->rol == 'Admin');
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Torneo  $torneo
+     * @param  \App\Models\Equipo  $equipo
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Torneo $torneo)
+    public function update(User $user, Equipo $equipo)
     {
-        return ($user->id === $torneo->user_id) || ($user->rol == 'Admin');
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Torneo  $torneo
+     * @param  \App\Models\Equipo  $equipo
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Torneo $torneo)
+    public function delete(User $user, Equipo $equipo)
     {
-        return ($user->id === $torneo->user_id) || ($user->rol == 'Admin');
+        //
     }
-
-    //METODO PARA LA INSCRIPCION DE UN USUARIO
-    public function inscripcion(User $user)
-    {
-        return ($user->rol == 'Jugador');
-    }
-
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Torneo  $torneo
+     * @param  \App\Models\Equipo  $equipo
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Torneo $torneo)
+    public function restore(User $user, Equipo $equipo)
     {
         //
     }
@@ -91,13 +86,11 @@ class TorneoPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Torneo  $torneo
+     * @param  \App\Models\Equipo  $equipo
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Torneo $torneo)
+    public function forceDelete(User $user, Equipo $equipo)
     {
         //
     }
-
-    
 }

@@ -12,6 +12,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function equipos()
+    {
+        return $this->belongsToMany(Equipo::class)->withPivot('equipo_id');;
+    }
     /**
      * The attributes that are mass assignable.
      *

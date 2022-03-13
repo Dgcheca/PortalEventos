@@ -31,6 +31,7 @@ class TorneoController extends Controller
      */
     public function create()
     {
+        $this->authorize('create');
         $juegos = Juego::all();
         return view('createTorneo', ['juegos' => $juegos]);
     }
@@ -107,10 +108,9 @@ class TorneoController extends Controller
         //Validación
         $validated = $request->validate([
             'descripcion' => 'required|max:255',
-            'fecha' => 'required:'
+            'fecha' => 'required|min:'
         ]);
         $torneo = Torneo::find($id);
-        $this->authorize('update', $torneo);
 
         //CONVIERTE LAS HORAS Y MINUTOS AL FORMATO DE HORA
         if ($request->minutos < 10) {
@@ -146,5 +146,13 @@ class TorneoController extends Controller
         Torneo::destroy($id);
 
         return redirect()->route('inicio');
+    }
+
+    //METODO DE INSCRIPCION DE LOS USUARIOS AL TORNEO
+    public function inscripcion($id)
+    {
+        $torneo = Torneo::find($id);
+        $equipos = Equipo::find($id);
+        return view('inscripcionTorneo', ['equipos' => $equipos, 'torneo' => $torneo]);
     }
 }

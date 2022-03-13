@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TorneoController;
+use App\Http\Controllers\EquipoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,7 @@ use App\Http\Controllers\TorneoController;
 |
 */
 
+//PARA QUE LA RUTA PRINCIPAL SIEMPRE SERA /INICIO
 Route::get('/', function(){return redirect('inicio');});
 Route::get('/inicio',[TorneoController::class, 'index'])->name('inicio');
 
@@ -28,6 +30,16 @@ Route::prefix('/torneo')->group(function () {
         Route::get('/{torneo}/edit',[TorneoController::class, 'edit'])->name('torneo.edit');
         Route::put('/{torneo}',[TorneoController::class, 'update'])->name('torneo.update');
         Route::get('/{torneo}/delete',[TorneoController::class, 'destroy'])->name('torneo.destroy');
+        Route::get('/inscripcion/{torneo}',[TorneoController::class, 'inscripcion'])->name('torneo.inscripcion');
+    });
+});
+
+Route::prefix('/equipos')->group(function () {
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/',[EquipoController::class, 'index'])->name('equipo.index');
+        Route::get('/nuevo/create',[EquipoController::class, 'create'])->name('equipo.create');
+        Route::post('/',[EquipoController::class, 'store'])->name('equipo.store');
+        Route::get('/{equipo}/delete',[EquipoController::class, 'destroy'])->name('equipo.destroy');
     });
 });
 Route::get('/dashboard', function () {return view('dashboard');})->middleware(['auth'])->name('dashboard');
