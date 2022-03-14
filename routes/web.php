@@ -40,7 +40,7 @@ Route::prefix('/torneo')->group(function () {
 
 //RUTAS DE LOS EQUIPOS
 Route::prefix('/equipos')->group(function () {
-    Route::middleware(['auth','rol:Organizador'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/', [EquipoController::class, 'index'])->name('equipo.index');
         Route::get('/nuevo/create', [EquipoController::class, 'create'])->name('equipo.create');
         Route::post('/', [EquipoController::class, 'store'])->name('equipo.store');
@@ -61,7 +61,7 @@ Route::prefix('/inscripcion')->group(function () {
 //RUTAS DE LOS JUEGOS
 Route::prefix('/juegos')->group(function () {
     //SOLO SI ESTAS LOGUEADO Y NO ERES JUGADOR
-    Route::middleware(['auth', 'rol:Jugador'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/', [JuegoController::class, 'index'])->name('juegos.index');
         Route::get('/nuevo/create', [JuegoController::class, 'create'])->name('juegos.create');
         Route::post('/', [JuegoController::class, 'store'])->name('juegos.store');
