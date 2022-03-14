@@ -51,8 +51,12 @@ class JuegoController extends Controller
         $juego = new Juego;
 
         $juego->nombre = $request->nombre;
-        $imagen = $request->file('file');
-        $juego->imagen = base64_encode($imagen->openFile()->fread($imagen->getSize()));
+
+        $path = $request->file('file')->getRealPath();
+        $logo = file_get_contents($path);
+        $base64 = base64_encode($logo);
+        $juego->imagen = $base64;
+
         $juego->save();
         return redirect()->route('juegos.index');
     }
