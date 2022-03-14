@@ -14,7 +14,7 @@ class User extends Authenticatable
 
     public function equipos()
     {
-        return $this->belongsToMany(Equipo::class)->withPivot('equipo_id');;
+        return $this->belongsToMany(Equipo::class)->withPivot('equipo_id');
     }
     /**
      * The attributes that are mass assignable.

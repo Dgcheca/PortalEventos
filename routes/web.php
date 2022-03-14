@@ -27,8 +27,8 @@ Route::get('/inicio', [TorneoController::class, 'index'])->name('inicio');
 Route::prefix('/torneo')->group(function () {
     //INDEPENDIENTE DE ESTAR LOGUEADO
     Route::get('/{torneo}', [TorneoController::class, 'show'])->name('torneo.show');
-    //SOLO SI ESTAS LOGUEADO
-    Route::middleware(['auth'])->group(function () {
+    //SOLO SI ESTAS LOGUEADO Y NO ERES JUGADOR
+    Route::middleware(['auth','rol:Jugador'])->group(function () {
         Route::get('/nuevo/create', [TorneoController::class, 'create'])->name('torneo.create');
         Route::post('/', [TorneoController::class, 'store'])->name('torneo.store');
         Route::get('/{torneo}/edit', [TorneoController::class, 'edit'])->name('torneo.edit');
@@ -37,27 +37,31 @@ Route::prefix('/torneo')->group(function () {
         //EXTRA PARA LAS INSCRIPCIONES
     });
 });
+
 //RUTAS DE LOS EQUIPOS
 Route::prefix('/equipos')->group(function () {
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth','rol:Organizador'])->group(function () {
         Route::get('/', [EquipoController::class, 'index'])->name('equipo.index');
         Route::get('/nuevo/create', [EquipoController::class, 'create'])->name('equipo.create');
         Route::post('/', [EquipoController::class, 'store'])->name('equipo.store');
         Route::get('/{equipo}/delete', [EquipoController::class, 'destroy'])->name('equipo.destroy');
     });
 });
+
 //RUTAS DE LAS INSCRIPCIONES
 Route::prefix('/inscripcion')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/{torneo}', [InscripcionController::class, 'create'])->name('inscripcion.create');
         Route::post('/{torneo}', [InscripcionController::class, 'store'])->name('inscripcion.store');
+        //PROBADO PERO NO INTEGRADO
         Route::get('/{torneo}/{equipo}/delete', [InscripcionController::class, 'destroy'])->name('inscripcion.destroy');
     });
 });
 
 //RUTAS DE LOS JUEGOS
 Route::prefix('/juegos')->group(function () {
-    Route::middleware(['auth'])->group(function () {
+    //SOLO SI ESTAS LOGUEADO Y NO ERES JUGADOR
+    Route::middleware(['auth', 'rol:Jugador'])->group(function () {
         Route::get('/', [JuegoController::class, 'index'])->name('juegos.index');
         Route::get('/nuevo/create', [JuegoController::class, 'create'])->name('juegos.create');
         Route::post('/', [JuegoController::class, 'store'])->name('juegos.store');

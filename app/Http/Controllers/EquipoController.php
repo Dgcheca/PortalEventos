@@ -20,23 +20,14 @@ class EquipoController extends Controller
     public function index()
     {
         if (Auth::user()) {
-            if (Auth::user()->rol == 'Admin' || Auth::user()->rol == 'Organizador' || Auth::user()->rol == 'Jugador') {
+            if (Auth::user()->rol == 'Admin') {
                 $equipos = Equipo::paginate(10);
-            } else {
-                // $usuario = User::find(Auth::user()->id);
-                // $equipos = $usuario->equipos;
-           
-                // if ($equipos != "[]") {
-                // $equipos = Equipo::where('id',$equipos)->paginate(10);
-                // return view('indexEquipos', ['equipos' => $equipos]);
-                // } else {
-                //    
-                // }
-               
+            } else if(Auth::user()->rol == 'Jugador') {
+                $user = User::find(Auth::user()->id);
+                $equipos = $user->equipos()->paginate(10);
             }
             return view('indexEquipos', ['equipos' => $equipos]);
         }
-      
     }
 
     /**
@@ -58,6 +49,12 @@ class EquipoController extends Controller
      */
     public function store(Request $request)
     {
+        //Validación
+        $validated = $request->validate([
+            'nombre' => 'required|max:255',
+            'tipo' => 'required',
+        ]);
+
         $equipo = new Equipo();
         $equipo->nombre = $request->nombre;
         $equipo->tipo = $request->tipo;
@@ -68,7 +65,7 @@ class EquipoController extends Controller
         array_push($jugadores, $request->jugador1);
         if (isset($request->jugador2)) {
             array_push($jugadores, $request->jugador2);
-        }    
+        }
         if (isset($request->jugador3)) {
             array_push($jugadores, $request->jugador3);
         }
@@ -85,7 +82,6 @@ class EquipoController extends Controller
             $equipo->users()->attach($id);
         }
         return redirect()->route('equipo.index');
-       
     }
 
     /**

@@ -16,9 +16,11 @@
                         {{ __('Inicio') }}
                     </x-nav-link>
                     @auth
+                    @if(Auth::user()->rol == 'Admin' || Auth::user()->rol == 'Jugador') 
                     <x-nav-link :href="route('equipo.index')" :active="request()->routeIs('equipo.index')">
                         {{ __('Equipos') }}
                     </x-nav-link>
+                    @endif
                     @if(Auth::user()->rol == 'Admin' || Auth::user()->rol == 'Organizador') 
                     <x-nav-link :href="route('juegos.index')" :active="request()->routeIs('juegos.index')">
                         {{ __('Juegos') }}

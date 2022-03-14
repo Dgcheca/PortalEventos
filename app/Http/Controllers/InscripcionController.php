@@ -16,7 +16,8 @@ class InscripcionController extends Controller
     public function create($id)
     {
         $torneo = Torneo::find($id);
-        $equipos = Equipo::all();
+        $user = User::find(Auth::user()->id);
+        $equipos = $user->equipos()->paginate(10);
         return view('inscripcionTorneo', ['equipos' => $equipos, 'torneo' => $torneo]);
     }
     public function store(Request $request, $id)

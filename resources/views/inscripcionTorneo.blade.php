@@ -17,7 +17,9 @@
 
                     <select required name="equipos" id="equipos" class="h-10 pl-3 pr-6 text-base border-gray-300 placeholder-gray-300 border rounded-lg appearance-none focus:shadow-outline">
                         @foreach( $equipos as $equipo)
+                        @if($equipo->tipo == $torneo->tipo)
                         <option value="{{ $equipo->id }}">{{ $equipo->nombre }}</option>
+                        @endif
                         @endforeach
                     </select>
 

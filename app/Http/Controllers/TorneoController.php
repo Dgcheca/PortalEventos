@@ -77,10 +77,14 @@ class TorneoController extends Controller
      */
     public function show($id)
     {
+
         $torneo = Torneo::findOrFail($id);
+        $user_equipos = User::find(Auth::user()->id)->equipos()->pluck('id');
+        
+        $contenido = $torneo->equipos->pluck('id')->intersect($user_equipos);
         $equipos = $torneo->equipos();
-        $inscrito = true;
-        return view('verTorneo', ['torneo' => $torneo, 'equipos' => $equipos, 'inscrito' => $inscrito]);
+
+        return view('verTorneo', ['torneo' => $torneo, 'equipos' => $equipos, 'contenido' => $contenido]);
     }
 
     /**

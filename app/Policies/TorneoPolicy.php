@@ -53,7 +53,7 @@ class TorneoPolicy
      */
     public function update(User $user, Torneo $torneo)
     {
-        return ($user->id === $torneo->user_id) || ($user->rol == 'Admin');
+        return ($user->id == $torneo->user_id) || ($user->rol == 'Admin');
     }
 
     /**

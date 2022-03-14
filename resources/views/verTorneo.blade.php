@@ -22,7 +22,7 @@
                 <p class="m-5">
                     @auth
                     @if(Auth::user()->rol == 'Jugador')
-                    @if($inscrito)
+                    @if(count($contenido) == 0)
                     <a href="/inscripcion/{{$torneo->id}}">
                         <x-button>
                             Inscribirse
@@ -30,7 +30,7 @@
                     </a>
                     @else
                     <!-- HAY QUE HACER LA COMPROBACION PARA VER SI YA ESTA INSCRITO -->
-                    <a href="/inscripcion/{{$torneo->id}}/{{$equipo->id}}/delete">
+                    <a href="/inscripcion/{{$torneo->id}}/{{$contenido[0]}}/delete">
                         <x-button>
                             Borrar Inscripcion
                         </x-button>
