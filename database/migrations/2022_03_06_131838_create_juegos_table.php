@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('juegos', function (Blueprint $table) {
             $table->bigincrements('id');
             $table->string('nombre');
-            $table->string('imagen');
+            $table->binary('imagen');
             $table->timestamps();
         });
     }
