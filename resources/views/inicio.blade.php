@@ -24,7 +24,7 @@
             <!-- Card -->
             <a class="bg-slate-900 border rounded-lg border-gray-700 p-5 m-2 shadow hover:bg-gray-700 delay-100 duration-200" href="/torneo/{{$torneo->id}}">
                 <!-- Header -->
-                <img src="/imagenes/{{ $torneo->juego->imagen }}" class="rounded w-72 h-72" />
+                <img src="" class="rounded w-72 h-72" />
                 <p class="mt-3 text-gray-500 font-semibold">{{$torneo->juego->nombre}}</p>
                 <!-- Content -->
                 <p class="text-xs text-gray-500 mt-3">

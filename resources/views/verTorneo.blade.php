@@ -9,7 +9,7 @@
 
 
         <div class="grid grid-cols-2 p-6 bg-gray-200 inline-block m-5 rounded">
-            <img src="/imagenes/{{ $torneo->juego->imagen }}" class="rounded w-full inline-block" />
+            <img src="" class="rounded w-full inline-block" />
 
             <div class="inline-block m-5">
                 <h1 class="m-5 text-5xl">Juego: {{$torneo->juego->nombre}}</h1>
