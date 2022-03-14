@@ -129,6 +129,7 @@ class EquipoController extends Controller
         $equipo = Equipo::find($id);
         //$this->authorize('delete', $equipo);
         $equipo->users()->detach();
+        $equipo->torneos()->detach();
         Equipo::destroy($id);
 
         return redirect()->route('equipo.index');
