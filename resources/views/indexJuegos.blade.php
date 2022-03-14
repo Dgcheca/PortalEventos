@@ -36,7 +36,7 @@
                            
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $juego->nombre}}</td>
-                                <td class="px-6 py-4 whitespace-nowrap"><img class="img-responsive w-72" src='data:image/jpg;base64, {{$juego->imagen}}'> </td>
+                                <!-- <td class="px-6 py-4 whitespace-nowrap"><img class="img-responsive w-72" src='data:image/jpg;base64, {{$juego->imagen}}'> </td> -->
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <a href="/juegos/{{ $juego->id }}/delete" data-method='delete' class="text-red-600"><button class="bg-red-600 hover:bg-red-700 text-black font-bold py-2 px-2 rounded">X</button></a>
                                 </td>
