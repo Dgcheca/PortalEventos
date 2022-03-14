@@ -62,7 +62,6 @@ class TorneoController extends Controller
         $torneo->hora_inicio = $hora_inicio;
         $torneo->descripcion = $request->descripcion;
         $torneo->aforo_maximo = $request->aforo;
-        $torneo->nequipos = 0;
         $torneo->tipo = $request->tipo;
         $torneo->user_id = Auth::id();
         $torneo->save();
