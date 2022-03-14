@@ -31,7 +31,7 @@ class TorneoController extends Controller
     public function create()
     {
         //$this->authorize('create');
-        
+
         $juegos = Juego::all();
         return view('createTorneo', ['juegos' => $juegos]);
     }
@@ -76,13 +76,14 @@ class TorneoController extends Controller
      */
     public function show($id)
     {
-
         $torneo = Torneo::findOrFail($id);
-        $user_equipos = User::find(Auth::user()->id)->equipos()->pluck('id');
-        
-        $contenido = $torneo->equipos->pluck('id')->intersect($user_equipos);
+        $contenido = "";
+        if (Auth::user()) {
+           
+            $user_equipos = User::find(Auth::user()->id)->equipos()->pluck('id');
+            $contenido = $torneo->equipos->pluck('id')->intersect($user_equipos);
+        }
         $equipos = $torneo->equipos();
-
         return view('verTorneo', ['torneo' => $torneo, 'equipos' => $equipos, 'contenido' => $contenido]);
     }
 
